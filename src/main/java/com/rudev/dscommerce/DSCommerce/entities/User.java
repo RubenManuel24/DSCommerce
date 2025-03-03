@@ -2,8 +2,10 @@ package com.rudev.dscommerce.DSCommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
@@ -17,7 +19,9 @@ public class User {
     @Column(unique = true)
     private String email;
     private String phone;
-    private Instant bithDate;
+
+    @Column(name = "birth_date")
+    private LocalDate bithDate;
     private String password;
 
     @OneToMany(mappedBy = "client")
@@ -25,7 +29,7 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String name, String email, String phone, Instant bithDate, String password) {
+    public User(Long id, String name, String email, String phone, LocalDate bithDate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -66,11 +70,11 @@ public class User {
         this.phone = phone;
     }
 
-    public Instant getBithDate() {
+    public LocalDate getBithDate() {
         return bithDate;
     }
 
-    public void setBithDate(Instant bithDate) {
+    public void setBithDate(LocalDate bithDate) {
         this.bithDate = bithDate;
     }
 
@@ -84,5 +88,17 @@ public class User {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Columns;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,8 @@ public class Product {
     private Long id;
 
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Double price;
     private String imgUrl;
@@ -23,7 +27,7 @@ public class Product {
     @JoinTable(
             name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "categpry_id"))
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "id.product")
@@ -83,7 +87,19 @@ public class Product {
         return categories;
     }
 
-    public Set<OrderItem> getItems() {
-        return items;
+    public List<Product> getItems() {
+        return items.stream().map(x -> x.getProduct()).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

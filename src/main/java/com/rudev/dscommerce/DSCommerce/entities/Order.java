@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,7 +19,7 @@ public class Order {
     private OrderStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "id_client")
+    @JoinColumn(name = "client_id")
     private User client;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
@@ -76,7 +78,19 @@ public class Order {
         this.payment = payment;
     }
 
-    public Set<OrderItem> getItems() {
-        return items;
+    public List<Order> getItems() {
+        return items.stream().map(x -> x.getOrder()).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

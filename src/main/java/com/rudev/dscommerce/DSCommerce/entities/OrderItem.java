@@ -4,11 +4,13 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 @Entity
-@Table(name = "tb_product_order")
+@Table(name = "tb_order_item")
 public class OrderItem {
 
-    private Integer quanity;
+    private Integer quantity;
     private Double price;
 
     @EmbeddedId
@@ -16,10 +18,10 @@ public class OrderItem {
 
     public OrderItem() {}
 
-    public OrderItem(Product product, Order order, Integer quanity, Double price) {
+    public OrderItem(Product product, Order order, Integer quantity, Double price) {
         id.setProduct(product);
         id.setOrder(order);
-        this.quanity = quanity;
+        this.quantity = quantity;
         this.price = price;
     }
 
@@ -47,11 +49,23 @@ public class OrderItem {
         this.price = price;
     }
 
-    public Integer getQuanity() {
-        return quanity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setQuanity(Integer quanity) {
-        this.quanity = quanity;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return Objects.equals(id, orderItem.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
