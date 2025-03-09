@@ -61,11 +61,17 @@ public class ProductService {
 
    }
 
+   public void deleteById(Long id){
+        productRepository.deleteById(id);
+    }
+
     private void copyDTOtoEntity(Product entity, ProductDTO productDTO) {
         entity.setName(productDTO.getName());
         entity.setDescription(productDTO.getDescription());
         entity.setImgUrl(productDTO.getImgUrl());
         entity.setPrice(productDTO.getPrice());
     }
+
+
 
 }
