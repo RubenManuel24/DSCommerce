@@ -3,11 +3,15 @@ package com.rudev.dscommerce.DSCommerce.service;
 import com.rudev.dscommerce.DSCommerce.dto.ProductDTO;
 import com.rudev.dscommerce.DSCommerce.entities.Product;
 import com.rudev.dscommerce.DSCommerce.repositories.ProductRepository;
+import com.rudev.dscommerce.DSCommerce.service.exceptions.DataIntegrityException;
 import com.rudev.dscommerce.DSCommerce.service.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
@@ -52,19 +56,30 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO productDTO){
-        Product entity = productRepository.getReferenceById(id);
+      try{
+          Product entity = productRepository.getReferenceById(id);
+          copyDTOtoEntity(entity, productDTO);
+          entity = productRepository.save(entity);
+          return new ProductDTO(entity);
+      }catch (EntityNotFoundException e){
 
-        copyDTOtoEntity(entity, productDTO);
+          throw new ResourceNotFoundException("Recurso não encontrado");
 
-        entity = productRepository.save(entity);
-
-        return new ProductDTO(entity);
+      }
 
    }
 
-   @Transactional
+   @Transactional(propagation = Propagation.SUPPORTS)
    public void deleteById(Long id){
-        productRepository.deleteById(id);
+        if(!productRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try{
+            productRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e){
+          throw new DataIntegrityException("Falha de integridade referêncial");
+        }
     }
 
     private void copyDTOtoEntity(Product entity, ProductDTO productDTO) {
