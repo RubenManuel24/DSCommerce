@@ -13,6 +13,8 @@ import com.rudev.dscommerce.DSCommerce.entities.User;
 import com.rudev.dscommerce.DSCommerce.projections.UserDetailsProjection;
 import com.rudev.dscommerce.DSCommerce.repositories.UserRepository;
 
+
+
 @Service
 public class UserService implements UserDetailsService{
 
