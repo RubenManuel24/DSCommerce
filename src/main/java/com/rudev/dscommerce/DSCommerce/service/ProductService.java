@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +45,8 @@ public class ProductService {
        copyDTOtoEntity(entity, productDTO);
        entity = productRepository.save(entity);
        return new ProductDTO(entity);
-
    }
-
+    
     @Transactional
     public ProductDTO update(Long id, ProductDTO productDTO){
 
@@ -55,14 +55,13 @@ public class ProductService {
           copyDTOtoEntity(entity, productDTO);
           entity = productRepository.save(entity);
           return new ProductDTO(entity);
-      }catch (EntityNotFoundException e){
+      } catch (EntityNotFoundException e){
 
           throw new ResourceNotFoundException("Recurso não encontrado");
-
+          
       }
-
    }
-
+   
    @Transactional(propagation = Propagation.SUPPORTS)
    public void deleteById(Long id){
         if(!productRepository.existsById(id)){
