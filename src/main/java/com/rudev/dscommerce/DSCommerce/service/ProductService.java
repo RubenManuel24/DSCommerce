@@ -1,6 +1,7 @@
 package com.rudev.dscommerce.DSCommerce.service;
 
 import com.rudev.dscommerce.DSCommerce.dto.ProductDTO;
+import com.rudev.dscommerce.DSCommerce.dto.ProductMinDTO;
 import com.rudev.dscommerce.DSCommerce.entities.Product;
 import com.rudev.dscommerce.DSCommerce.repositories.ProductRepository;
 import com.rudev.dscommerce.DSCommerce.service.exceptions.DataIntegrityException;
@@ -33,9 +34,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> listProduct = productRepository.searchByName(name, pageable);
-        return listProduct.map(product -> new ProductDTO(product));
+        return listProduct.map(product -> new ProductMinDTO(product));
     }
 
    @Transactional
