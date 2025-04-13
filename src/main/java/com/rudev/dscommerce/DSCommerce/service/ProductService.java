@@ -1,7 +1,9 @@
 package com.rudev.dscommerce.DSCommerce.service;
 
+import com.rudev.dscommerce.DSCommerce.dto.CategotyDTO;
 import com.rudev.dscommerce.DSCommerce.dto.ProductDTO;
 import com.rudev.dscommerce.DSCommerce.dto.ProductMinDTO;
+import com.rudev.dscommerce.DSCommerce.entities.Category;
 import com.rudev.dscommerce.DSCommerce.entities.Product;
 import com.rudev.dscommerce.DSCommerce.repositories.ProductRepository;
 import com.rudev.dscommerce.DSCommerce.service.exceptions.DataIntegrityException;
@@ -41,7 +43,6 @@ public class ProductService {
 
    @Transactional
     public ProductDTO insert(ProductDTO productDTO){
-
        Product entity = new Product();
        copyDTOtoEntity(entity, productDTO);
        entity = productRepository.save(entity);
@@ -81,6 +82,13 @@ public class ProductService {
         entity.setDescription(productDTO.getDescription());
         entity.setImgUrl(productDTO.getImgUrl());
         entity.setPrice(productDTO.getPrice());
+        
+        entity.getCategories().clear();
+        for(CategotyDTO catDTO : productDTO.getCategories()) {
+        	Category category = new Category();
+        	category.setId(catDTO.getId());
+        	entity.getCategories().add(category);
+        }
     }
 
 
