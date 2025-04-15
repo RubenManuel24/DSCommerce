@@ -77,9 +77,15 @@ public class Order {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+    
+    
 
-    public List<Order> getItems() {
-        return items.stream().map(x -> x.getOrder()).toList();
+    public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public List<Product> getIProduct() {
+        return items.stream().map(x -> x.getProduct()).toList();
     }
 
     @Override

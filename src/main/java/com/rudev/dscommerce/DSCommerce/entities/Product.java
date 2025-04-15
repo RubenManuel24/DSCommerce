@@ -87,8 +87,12 @@ public class Product {
         return categories;
     }
 
-    public List<Product> getItems() {
-        return items.stream().map(x -> x.getProduct()).toList();
+    public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public List<Order> getOrder() {
+        return items.stream().map(x -> x.getOrder()).toList();
     }
 
     @Override
