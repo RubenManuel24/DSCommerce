@@ -23,12 +23,20 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private OrderService oredService;
+    private OrderService orderService;
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
-    	OrderDTO dto = oredService.findById(id);
+    	OrderDTO dto = orderService.findById(id);
        return ResponseEntity.ok(dto);
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @PostMapping
+    public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO OrderDTO){
+       OrderDTO entity = orderService.insert(OrderDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entity.getId()).toUri();
+       return ResponseEntity.created(uri).body(entity);
     }
 }

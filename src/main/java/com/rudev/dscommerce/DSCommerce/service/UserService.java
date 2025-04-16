@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	protected User autheticated() {
+	public User autheticated() {
 
 		try {
 
