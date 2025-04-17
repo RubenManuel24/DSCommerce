@@ -6,6 +6,7 @@ import com.rudev.dscommerce.DSCommerce.entities.Category;
 import com.rudev.dscommerce.DSCommerce.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -18,7 +19,8 @@ public class ProductDTO {
     private String name;
     @Size(min = 3, message = "O description deve ter no mínimo 3 carácteres")
     private String description;
-
+    
+    @NotNull(message = "Campo requerido")
     @Positive(message = "O preço deve ser positivo")
     private Double price;
     private String imgUrl;
