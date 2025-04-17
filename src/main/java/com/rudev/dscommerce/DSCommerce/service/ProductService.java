@@ -1,6 +1,6 @@
 package com.rudev.dscommerce.DSCommerce.service;
 
-import com.rudev.dscommerce.DSCommerce.dto.CategotyDTO;
+import com.rudev.dscommerce.DSCommerce.dto.CategoryDTO;
 import com.rudev.dscommerce.DSCommerce.dto.ProductDTO;
 import com.rudev.dscommerce.DSCommerce.dto.ProductMinDTO;
 import com.rudev.dscommerce.DSCommerce.entities.Category;
@@ -13,12 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.beans.Transient;
 import java.util.Optional;
 
 @Service
@@ -84,7 +81,7 @@ public class ProductService {
         entity.setPrice(productDTO.getPrice());
         
         entity.getCategories().clear();
-        for(CategotyDTO catDTO : productDTO.getCategories()) {
+        for(CategoryDTO catDTO : productDTO.getCategories()) {
         	Category category = new Category();
         	category.setId(catDTO.getId());
         	entity.getCategories().add(category);

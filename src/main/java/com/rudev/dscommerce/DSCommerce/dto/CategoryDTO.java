@@ -2,19 +2,19 @@ package com.rudev.dscommerce.DSCommerce.dto;
 
 import com.rudev.dscommerce.DSCommerce.entities.Category;
 
-public class CategotyDTO {
+public class CategoryDTO {
 	
 	private Long id;
 	private String name;
 	
-	public CategotyDTO() {}
+	public CategoryDTO() {}
 	
-	public CategotyDTO(Long id, String name) {
+	public CategoryDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
-	public CategotyDTO(Category cat) {
+	public CategoryDTO(Category cat) {
 		id = cat.getId();
 		name = cat.getName();
 	}
